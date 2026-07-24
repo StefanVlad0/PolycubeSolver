@@ -5,9 +5,16 @@ interface Props {
   children: ReactNode;
   /** Radius of the model, used to place the floor and shadows. */
   extent: number;
+  autoRotate?: boolean;
+  controlsEnabled?: boolean;
 }
 
-export function SceneFrame({ children, extent }: Props) {
+export function SceneFrame({
+  children,
+  extent,
+  autoRotate = false,
+  controlsEnabled = true,
+}: Props) {
   const floorY = -extent - 0.6;
   return (
     <>
@@ -58,9 +65,12 @@ export function SceneFrame({ children, extent }: Props) {
       <OrbitControls
         makeDefault
         enablePan={false}
+        enableRotate={controlsEnabled}
+        enableZoom={controlsEnabled}
+        autoRotate={autoRotate}
         minDistance={extent * 1.6}
         maxDistance={extent * 9}
-        autoRotateSpeed={0.6}
+        autoRotateSpeed={1.4}
         dampingFactor={0.08}
       />
     </>

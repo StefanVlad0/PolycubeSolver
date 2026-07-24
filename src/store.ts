@@ -19,7 +19,7 @@ import {
 } from "./lib/presets";
 import { keyOf } from "./lib/geometry";
 import { normalize } from "./lib/geometry";
-import { isInsideDims } from "./lib/grid";
+import { isInsideDims, DEFAULT_SPACING, MIN_SPACING, MAX_SPACING } from "./lib/grid";
 
 const MAX_PIECES = 7;
 
@@ -38,6 +38,7 @@ interface AppState {
 
   editTarget: EditTarget;
   eraseMode: boolean;
+  cellSpacing: number;
 
   status: SolverStatus;
   progress: Progress;
@@ -49,6 +50,7 @@ interface AppState {
   // actions
   setEditTarget: (t: EditTarget) => void;
   setEraseMode: (v: boolean) => void;
+  setCellSpacing: (v: number) => void;
 
   addPiece: () => void;
   removePiece: (id: string) => void;
@@ -130,6 +132,7 @@ export const useStore = create<AppState>((set, get) => ({
 
   editTarget: { kind: "container" },
   eraseMode: false,
+  cellSpacing: DEFAULT_SPACING,
 
   status: "idle",
   progress: { count: 0, distinctCount: 0, nodes: 0 },
@@ -140,6 +143,10 @@ export const useStore = create<AppState>((set, get) => ({
 
   setEditTarget: (t) => set({ editTarget: t }),
   setEraseMode: (v) => set({ eraseMode: v }),
+  setCellSpacing: (v) =>
+    set({
+      cellSpacing: Math.max(MIN_SPACING, Math.min(MAX_SPACING, v)),
+    }),
 
   addPiece: () => {
     const { pieces } = get();

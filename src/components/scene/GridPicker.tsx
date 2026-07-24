@@ -7,12 +7,13 @@ const DRAG_THRESHOLD_PX = 6;
 
 interface Props {
   dims: Vec3;
+  spacing: number;
   onPick: (cell: Vec3) => void;
   onHover: (cell: Vec3 | null) => void;
 }
 
 /** Screen-space cell picker — not blocked by outer voxels. */
-export function GridPicker({ dims, onPick, onHover }: Props) {
+export function GridPicker({ dims, spacing, onPick, onHover }: Props) {
   const { gl, camera } = useThree();
   const downRef = useRef<{ x: number; y: number } | null>(null);
   const onPickRef = useRef(onPick);
@@ -26,7 +27,7 @@ export function GridPicker({ dims, onPick, onHover }: Props) {
     const pick = (clientX: number, clientY: number) => {
       const rect = canvas.getBoundingClientRect();
       const { x, y } = pointerToNdc(clientX, clientY, rect);
-      return pickCellAtNdc(x, y, camera, dims);
+      return pickCellAtNdc(x, y, camera, dims, spacing);
     };
 
     const onPointerDown = (e: PointerEvent) => {
@@ -62,7 +63,7 @@ export function GridPicker({ dims, onPick, onHover }: Props) {
       canvas.removeEventListener("pointerup", onPointerUp);
       canvas.removeEventListener("pointerleave", onLeave);
     };
-  }, [gl, camera, dims]);
+  }, [gl, camera, dims, spacing]);
 
   return null;
 }

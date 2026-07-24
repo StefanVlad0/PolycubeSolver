@@ -13,6 +13,7 @@ export function EditorScene() {
   const container = useStore((s) => s.container);
   const togglePieceCell = useStore((s) => s.togglePieceCell);
   const toggleContainerCell = useStore((s) => s.toggleContainerCell);
+  const cellSpacing = useStore((s) => s.cellSpacing);
   const [hovered, setHovered] = useState<Vec3 | null>(null);
 
   const model = useMemo(() => {
@@ -46,7 +47,7 @@ export function EditorScene() {
     for (let y = 0; y < dy; y++) {
       for (let z = 0; z < dz; z++) {
         const cell: Vec3 = [x, y, z];
-        const pos = cellToWorld(cell, model.dims);
+        const pos = cellToWorld(cell, model.dims, cellSpacing);
         const k = keyOf(cell);
         const isFilled = model.filled.has(k);
         const highlighted = hoveredKey === k;
@@ -80,6 +81,7 @@ export function EditorScene() {
     <group>
       <GridPicker
         dims={model.dims}
+        spacing={cellSpacing}
         onPick={model.onToggle}
         onHover={setHovered}
       />

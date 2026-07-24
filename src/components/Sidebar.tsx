@@ -37,19 +37,9 @@ export function Sidebar() {
       <ContainerControls />
       <SolvePanel />
 
-      <footer className="mt-auto flex flex-col items-center gap-2 px-1 pb-1 pt-2">
-        <a
-          href="https://buymeacoffee.com/vladstefans"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="btn btn-ghost !px-3 !py-1.5 text-xs text-slate-400 transition-colors hover:text-amber-200"
-        >
-          ☕ Support the project
-        </a>
-        <p className="text-center text-[11px] leading-relaxed text-slate-600">
-          Drag to orbit · scroll to zoom · click cells in the 3D view to sculpt
-          pieces & the container.
-        </p>
+      <footer className="mt-auto px-1 pb-1 pt-2 text-center text-[11px] leading-relaxed text-slate-600">
+        Drag to orbit · scroll to zoom · click cells in the 3D view to sculpt
+        pieces & the container.
       </footer>
     </aside>
   );

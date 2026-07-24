@@ -7,9 +7,15 @@ interface Props {
   solution: Solution;
   container: ContainerShape;
   explode: number;
+  spacing?: number;
 }
 
-export function SolutionScene({ solution, container, explode }: Props) {
+export function SolutionScene({
+  solution,
+  container,
+  explode,
+  spacing,
+}: Props) {
   const center = useMemo(() => {
     let mnx = Infinity,
       mny = Infinity,
@@ -56,7 +62,7 @@ export function SolutionScene({ solution, container, explode }: Props) {
         return (
           <group key={piece.pieceId + "-" + pi}>
             {piece.cells.map((c, ci) => {
-              const base = cellToWorld(c, dims);
+              const base = cellToWorld(c, dims, spacing);
               return (
                 <VoxelCell
                   key={ci}
