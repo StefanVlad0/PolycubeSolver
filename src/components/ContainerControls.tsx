@@ -30,7 +30,7 @@ export function ContainerControls() {
             active ? "btn-primary" : "btn-ghost"
           }`}
           onClick={() => setEditTarget({ kind: "container" })}
-          title={active ? "Editing container" : "Edit container shape"}
+          title={active ? "Editing target shape" : "Edit target shape"}
         >
           {active ? "Editing" : "Edit"}
         </button>

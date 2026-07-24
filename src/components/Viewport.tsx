@@ -27,14 +27,24 @@ export function Viewport() {
   const pieces = useStore((s) => s.pieces);
   const cellSpacing = useStore((s) => s.cellSpacing);
   const setCellSpacing = useStore((s) => s.setCellSpacing);
+  const setEditTarget = useStore((s) => s.setEditTarget);
 
   const [viewing, setViewing] = useState(false);
   const [explode, setExplode] = useState(0);
   const [introDone, setIntroDone] = useState(false);
 
   const dismissIntro = () => {
-    if (!introDone) setIntroDone(true);
+    if (introDone) return;
+    setIntroDone(true);
+    if (pieces.length > 0) {
+      setEditTarget({ kind: "piece", id: pieces[0].id });
+    }
   };
+
+  const editingPiece =
+    editTarget.kind === "piece"
+      ? pieces.find((p) => p.id === editTarget.id)
+      : null;
 
   const hasSolutions = solutions.length > 0;
   const showSolution = viewing && hasSolutions;
@@ -115,28 +125,31 @@ export function Viewport() {
         </div>
       )}
 
-      {/* Top-left mode badge */}
+      {/* Editor mode badge */}
       {!showIntro && (
-      <div className="pointer-events-none absolute left-4 top-4 flex flex-col gap-2">
-        <div className="chip pointer-events-auto backdrop-blur">
-          {showSolution ? (
-            <>
-              <span className="h-2 w-2 rounded-full bg-emerald-400" />
-              Viewing solution
-            </>
-          ) : editTarget.kind === "piece" ? (
-            <>
-              <span className="h-2 w-2 rounded-full bg-indigo-400" />
-              Editing piece - click cells to toggle
-            </>
-          ) : (
-            <>
-              <span className="h-2 w-2 rounded-full bg-sky-400" />
-              Editing container - click cells to toggle
-            </>
-          )}
+        <div className="pointer-events-none absolute left-4 top-4 z-10 max-w-[15rem]">
+          <div className="glass rounded-xl px-3 py-2 backdrop-blur">
+            {showSolution ? (
+              <EditorBadge
+                color="bg-emerald-400"
+                title={`Viewing solution ${currentSolution + 1} of ${solutions.length}`}
+                hint="Drag to orbit · adjust Explode below"
+              />
+            ) : editTarget.kind === "piece" && editingPiece ? (
+              <EditorBadge
+                color="bg-indigo-400"
+                title={`Editing ${editingPiece.name}`}
+                hint="Click cells to build this piece"
+              />
+            ) : (
+              <EditorBadge
+                color="bg-sky-400"
+                title="Editing target shape"
+                hint="Click cells to define what must be filled"
+              />
+            )}
+          </div>
         </div>
-      </div>
       )}
 
       {/* Support button - top right */}
@@ -229,6 +242,26 @@ export function Viewport() {
           View {solutions.length} solution{solutions.length > 1 ? "s" : ""}
         </button>
       )}
+    </div>
+  );
+}
+
+function EditorBadge({
+  color,
+  title,
+  hint,
+}: {
+  color: string;
+  title: string;
+  hint: string;
+}) {
+  return (
+    <div className="flex items-start gap-2">
+      <span className={`mt-1.5 h-2 w-2 shrink-0 rounded-full ${color}`} />
+      <div className="min-w-0">
+        <p className="text-xs font-semibold leading-snug text-slate-100">{title}</p>
+        <p className="mt-0.5 text-[11px] leading-snug text-slate-400">{hint}</p>
+      </div>
     </div>
   );
 }

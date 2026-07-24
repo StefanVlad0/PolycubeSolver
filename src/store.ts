@@ -125,12 +125,14 @@ const defaultSettings: SolverSettings = {
   maxCount: 500000,
 };
 
+const initialPieces = somaPieces();
+
 export const useStore = create<AppState>((set, get) => ({
-  pieces: somaPieces(),
+  pieces: initialPieces,
   container: cubeContainer(3),
   settings: defaultSettings,
 
-  editTarget: { kind: "container" },
+  editTarget: { kind: "piece", id: initialPieces[0].id },
   eraseMode: false,
   cellSpacing: DEFAULT_SPACING,
 
@@ -227,16 +229,18 @@ export const useStore = create<AppState>((set, get) => ({
 
   setSettings: (s) => set({ settings: { ...get().settings, ...s }, status: "idle" }),
 
-  loadSoma: () =>
+  loadSoma: () => {
+    const pieces = somaPieces();
     set({
-      pieces: somaPieces(),
+      pieces,
       container: cubeContainer(3),
-      editTarget: { kind: "container" },
+      editTarget: { kind: "piece", id: pieces[0].id },
       status: "idle",
       solutions: [],
       meta: null,
       errorMessage: null,
-    }),
+    });
+  },
 
   loadEmpty: () => {
     const p: Piece = {
@@ -248,7 +252,7 @@ export const useStore = create<AppState>((set, get) => ({
     set({
       pieces: [p],
       container: cubeContainer(3),
-      editTarget: { kind: "container" },
+      editTarget: { kind: "piece", id: p.id },
       status: "idle",
       solutions: [],
       meta: null,
