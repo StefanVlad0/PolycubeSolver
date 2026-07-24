@@ -1,0 +1,127 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+  background: #05060f;
+  color: #e7e9f3;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow: hidden;
+}
+
+/* App background: layered radial gradients for depth. */
+.app-bg {
+  background:
+    radial-gradient(60rem 60rem at 12% -10%, rgba(99, 102, 241, 0.22), transparent 60%),
+    radial-gradient(50rem 50rem at 110% 10%, rgba(34, 211, 238, 0.16), transparent 55%),
+    radial-gradient(60rem 40rem at 60% 120%, rgba(168, 85, 247, 0.14), transparent 60%),
+    #05060f;
+}
+
+.glass {
+  background: linear-gradient(
+    180deg,
+    rgba(24, 28, 51, 0.72),
+    rgba(12, 15, 31, 0.72)
+  );
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(129, 140, 248, 0.14);
+}
+
+.glass-soft {
+  background: rgba(18, 22, 42, 0.55);
+  border: 1px solid rgba(129, 140, 248, 0.1);
+}
+
+/* Scrollbar */
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+*::-webkit-scrollbar-thumb {
+  background: rgba(129, 140, 248, 0.25);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: rgba(129, 140, 248, 0.45);
+  background-clip: content-box;
+}
+
+.gradient-text {
+  background: linear-gradient(100deg, #a5b4fc 0%, #67e8f9 55%, #a78bfa 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-xl px-3.5 py-2 text-sm font-semibold transition-all duration-150 select-none;
+}
+.btn:disabled {
+  @apply opacity-40 cursor-not-allowed;
+}
+.btn-primary {
+  @apply text-white;
+  background: linear-gradient(120deg, #6366f1, #22d3ee);
+  box-shadow: 0 8px 24px -8px rgba(56, 189, 248, 0.6);
+}
+.btn-primary:hover:not(:disabled) {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+.btn-ghost {
+  @apply text-slate-200;
+  background: rgba(129, 140, 248, 0.08);
+  border: 1px solid rgba(129, 140, 248, 0.16);
+}
+.btn-ghost:hover:not(:disabled) {
+  background: rgba(129, 140, 248, 0.16);
+}
+.btn-danger {
+  @apply text-rose-200;
+  background: rgba(244, 63, 94, 0.12);
+  border: 1px solid rgba(244, 63, 94, 0.28);
+}
+.btn-danger:hover:not(:disabled) {
+  background: rgba(244, 63, 94, 0.22);
+}
+
+.chip {
+  @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium;
+  background: rgba(129, 140, 248, 0.1);
+  border: 1px solid rgba(129, 140, 248, 0.16);
+}
+
+.animate-fade-in {
+  animation: fade-in 0.35s ease-out both;
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
