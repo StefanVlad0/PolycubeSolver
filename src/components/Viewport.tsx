@@ -114,7 +114,7 @@ export function Viewport() {
       {showIntro && (
         <div className="pointer-events-none absolute inset-x-0 bottom-8 flex justify-center px-4">
           <div className="glass animate-fade-in max-w-sm rounded-2xl px-5 py-3 text-center">
-            <p className="text-sm font-semibold gradient-text">PolycubeSolver</p>
+            <p className="text-sm font-bold tracking-tight text-slate-100">PolycubeSolver</p>
             <p className="mt-0.5 text-xs text-slate-400">
               Design pieces · solve any polycube puzzle
             </p>
@@ -158,7 +158,7 @@ export function Viewport() {
         target="_blank"
         rel="noopener noreferrer"
         onPointerDown={(e) => e.stopPropagation()}
-        className="btn btn-ghost absolute right-4 top-4 z-10 !px-3 !py-1.5 text-xs text-slate-400 backdrop-blur transition-colors hover:text-amber-200"
+        className="btn btn-ghost absolute right-4 top-4 z-10 !px-3 !py-1.5 text-xs text-slate-400 backdrop-blur transition-colors hover:text-slate-200"
       >
         ☕ Support the project
       </a>

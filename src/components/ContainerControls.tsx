@@ -27,7 +27,7 @@ export function ContainerControls() {
         <button
           type="button"
           className={`btn !px-2 !py-1 text-xs ${
-            active ? "btn-primary" : "btn-ghost"
+            active ? "btn-active" : "btn-ghost"
           }`}
           onClick={() => setEditTarget({ kind: "container" })}
           title={active ? "Editing target shape" : "Edit target shape"}

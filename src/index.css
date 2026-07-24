@@ -24,7 +24,6 @@ body {
   overflow: hidden;
 }
 
-/* App background: layered radial gradients for depth. */
 .app-bg {
   background:
     radial-gradient(60rem 60rem at 12% -10%, rgba(99, 102, 241, 0.22), transparent 60%),
@@ -48,7 +47,6 @@ body {
   border: 1px solid rgba(129, 140, 248, 0.1);
 }
 
-/* Scrollbar */
 *::-webkit-scrollbar {
   width: 10px;
   height: 10px;
@@ -67,23 +65,20 @@ body {
   background-clip: content-box;
 }
 
-.gradient-text {
-  background: linear-gradient(100deg, #a5b4fc 0%, #67e8f9 55%, #a78bfa 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+.brand-title {
+  @apply text-lg font-bold tracking-tight text-slate-100;
 }
 
 .btn {
   @apply inline-flex items-center justify-center gap-2 rounded-xl px-3.5 py-2 text-sm font-semibold transition-all duration-150 select-none;
 }
 .btn:disabled {
-  @apply opacity-40 cursor-not-allowed;
+  @apply cursor-not-allowed opacity-40;
 }
 .btn-primary {
   @apply text-white;
   background: linear-gradient(120deg, #6366f1, #22d3ee);
-  box-shadow: 0 8px 24px -8px rgba(56, 189, 248, 0.6);
+  box-shadow: 0 8px 24px -8px rgba(56, 189, 248, 0.5);
 }
 .btn-primary:hover:not(:disabled) {
   filter: brightness(1.08);
@@ -96,6 +91,11 @@ body {
 }
 .btn-ghost:hover:not(:disabled) {
   background: rgba(129, 140, 248, 0.16);
+}
+.btn-active {
+  color: #c7d2fe;
+  background: rgba(99, 102, 241, 0.2);
+  border: 1px solid rgba(129, 140, 248, 0.4);
 }
 .btn-danger {
   @apply text-rose-200;

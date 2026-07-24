@@ -2,6 +2,7 @@ import { useStore } from "../store";
 import { PieceList } from "./PieceList";
 import { ContainerControls } from "./ContainerControls";
 import { SolvePanel } from "./SolvePanel";
+import { PuzzleLogo } from "./PuzzleLogo";
 
 export function Sidebar() {
   const loadSoma = useStore((s) => s.loadSoma);
@@ -11,13 +12,11 @@ export function Sidebar() {
     <aside className="flex h-full w-[22rem] shrink-0 flex-col gap-3 overflow-y-auto p-3">
       <header className="glass rounded-2xl p-4">
         <div className="flex items-center gap-3">
-          <div className="grid h-11 w-11 place-items-center rounded-xl bg-gradient-to-br from-indigo-500 to-cyan-400 shadow-glow">
-            <CubeGlyph />
+          <div className="grid h-14 w-14 shrink-0 place-items-center rounded-xl bg-white shadow-md ring-1 ring-slate-200/80">
+            <PuzzleLogo size={48} />
           </div>
           <div>
-            <h1 className="text-lg font-extrabold leading-tight gradient-text">
-              PolycubeSolver
-            </h1>
+            <h1 className="brand-title">PolycubeSolver</h1>
             <p className="text-xs text-slate-400">
               Design pieces · solve like a Soma Cube
             </p>
@@ -42,23 +41,5 @@ export function Sidebar() {
         pieces & the container.
       </footer>
     </aside>
-  );
-}
-
-function CubeGlyph() {
-  return (
-    <svg width="24" height="24" viewBox="0 0 64 64" fill="none">
-      <g
-        stroke="#0b0d1a"
-        strokeWidth="3.4"
-        strokeLinejoin="round"
-        strokeLinecap="round"
-      >
-        <path d="M32 6 54 18v28L32 58 10 46V18z" fill="rgba(11,13,26,0.15)" />
-        <path d="M32 6 32 32 54 18" />
-        <path d="M32 32 32 58" />
-        <path d="M32 32 10 18" />
-      </g>
-    </svg>
   );
 }
