@@ -31,7 +31,6 @@ export function Viewport() {
   const [viewing, setViewing] = useState(false);
   const [explode, setExplode] = useState(0);
   const [introDone, setIntroDone] = useState(false);
-  const [introReady, setIntroReady] = useState(false);
 
   const dismissIntro = () => {
     if (!introDone) setIntroDone(true);
@@ -73,7 +72,7 @@ export function Viewport() {
           controlsEnabled={!showIntro}
         >
           {showIntro ? (
-            <StartupIntro onAssembled={() => setIntroReady(true)} />
+            <StartupIntro />
           ) : showSolution ? (
             <SolutionScene
               solution={solutions[currentSolution] ?? solutions[0]}
@@ -87,7 +86,7 @@ export function Viewport() {
         </SceneFrame>
       </Canvas>
 
-      {/* Intro — example chip top left */}
+      {/* Intro - example chip top left */}
       {showIntro && (
         <div className="pointer-events-none absolute left-4 top-4 z-10">
           <div className="animate-fade-in rounded-xl border border-indigo-400/20 bg-indigo-500/10 px-3 py-2 backdrop-blur">
@@ -109,11 +108,9 @@ export function Viewport() {
             <p className="mt-0.5 text-xs text-slate-400">
               Design pieces · solve any polycube puzzle
             </p>
-            {introReady && (
-              <p className="mt-2.5 text-xs font-medium text-slate-300">
-                Click or drag to start
-              </p>
-            )}
+            <p className="mt-2.5 text-xs font-medium text-slate-300">
+              Click or drag to start
+            </p>
           </div>
         </div>
       )}
@@ -130,19 +127,19 @@ export function Viewport() {
           ) : editTarget.kind === "piece" ? (
             <>
               <span className="h-2 w-2 rounded-full bg-indigo-400" />
-              Editing piece — click cells to toggle
+              Editing piece - click cells to toggle
             </>
           ) : (
             <>
               <span className="h-2 w-2 rounded-full bg-sky-400" />
-              Editing container — click cells to toggle
+              Editing container - click cells to toggle
             </>
           )}
         </div>
       </div>
       )}
 
-      {/* Support button — top right */}
+      {/* Support button - top right */}
       <a
         href="https://buymeacoffee.com/vladstefans"
         target="_blank"

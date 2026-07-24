@@ -37,18 +37,18 @@ export function boxContainer(dx: number, dy: number, dz: number): ContainerShape
 
 /** The classic 7 Soma cube pieces (1 tricube + 6 tetracubes). */
 export function somaPieces(): Piece[] {
-  const defs: Array<{ name: string; cells: Vec3[] }> = [
-    { name: "V", cells: [[0, 0, 0], [1, 0, 0], [0, 1, 0]] },
-    { name: "L", cells: [[0, 0, 0], [1, 0, 0], [2, 0, 0], [0, 1, 0]] },
-    { name: "T", cells: [[0, 0, 0], [1, 0, 0], [2, 0, 0], [1, 1, 0]] },
-    { name: "S", cells: [[1, 0, 0], [2, 0, 0], [0, 1, 0], [1, 1, 0]] },
-    { name: "A", cells: [[0, 0, 0], [1, 0, 0], [1, 1, 0], [1, 1, 1]] },
-    { name: "B", cells: [[0, 0, 0], [1, 0, 0], [0, 1, 0], [0, 1, 1]] },
-    { name: "P", cells: [[0, 0, 0], [1, 0, 0], [0, 1, 0], [0, 0, 1]] },
+  const defs: Array<{ cells: Vec3[] }> = [
+    { cells: [[0, 0, 0], [1, 0, 0], [0, 1, 0]] },
+    { cells: [[0, 0, 0], [1, 0, 0], [2, 0, 0], [0, 1, 0]] },
+    { cells: [[0, 0, 0], [1, 0, 0], [2, 0, 0], [1, 1, 0]] },
+    { cells: [[1, 0, 0], [2, 0, 0], [0, 1, 0], [1, 1, 0]] },
+    { cells: [[0, 0, 0], [1, 0, 0], [1, 1, 0], [1, 1, 1]] },
+    { cells: [[0, 0, 0], [1, 0, 0], [0, 1, 0], [0, 1, 1]] },
+    { cells: [[0, 0, 0], [1, 0, 0], [0, 1, 0], [0, 0, 1]] },
   ];
   return defs.map((d, i) => ({
     id: newId(),
-    name: d.name,
+    name: `Piece ${i + 1}`,
     color: PIECE_COLORS[i % PIECE_COLORS.length],
     cells: d.cells,
   }));

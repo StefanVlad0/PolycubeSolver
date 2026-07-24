@@ -12,7 +12,7 @@ interface Props {
   onHover: (cell: Vec3 | null) => void;
 }
 
-/** Screen-space cell picker — not blocked by outer voxels. */
+/** Screen-space cell picker - not blocked by outer voxels. */
 export function GridPicker({ dims, spacing, onPick, onHover }: Props) {
   const { gl, camera } = useThree();
   const downRef = useRef<{ x: number; y: number } | null>(null);

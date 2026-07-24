@@ -10,12 +10,12 @@ export function Section({
   children: ReactNode;
 }) {
   return (
-    <section className="glass rounded-2xl p-4">
-      <div className="mb-3 flex items-center justify-between">
-        <h2 className="text-xs font-bold uppercase tracking-wider text-slate-400">
+    <section className="glass rounded-2xl p-3">
+      <div className="mb-2 flex min-w-0 items-center justify-between gap-2">
+        <h2 className="shrink-0 text-xs font-bold uppercase tracking-wider text-slate-400">
           {title}
         </h2>
-        {right}
+        {right && <div className="shrink-0">{right}</div>}
       </div>
       {children}
     </section>
@@ -63,19 +63,52 @@ export function NumberStepper({
   min = 1,
   max = 8,
   onChange,
+  compact = false,
 }: {
   label: string;
   value: number;
   min?: number;
   max?: number;
   onChange: (v: number) => void;
+  compact?: boolean;
 }) {
   const clamp = (v: number) => Math.max(min, Math.min(max, v));
+  if (compact) {
+    return (
+      <div className="min-w-0">
+        <span className="mb-0.5 block text-center text-[10px] font-semibold text-slate-500">
+          {label}
+        </span>
+        <div className="flex items-center justify-center rounded-lg bg-white/5 p-0.5">
+          <button
+            type="button"
+            className="grid h-6 w-6 shrink-0 place-items-center rounded text-xs text-slate-300 transition-colors hover:bg-white/10"
+            onClick={() => onChange(clamp(value - 1))}
+            aria-label={`Decrease ${label}`}
+          >
+            −
+          </button>
+          <span className="w-5 shrink-0 text-center text-xs font-bold tabular-nums text-slate-100">
+            {value}
+          </span>
+          <button
+            type="button"
+            className="grid h-6 w-6 shrink-0 place-items-center rounded text-xs text-slate-300 transition-colors hover:bg-white/10"
+            onClick={() => onChange(clamp(value + 1))}
+            aria-label={`Increase ${label}`}
+          >
+            +
+          </button>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="flex flex-col items-center gap-1">
       <span className="text-xs font-semibold text-slate-400">{label}</span>
       <div className="flex items-center gap-1 rounded-xl bg-white/5 p-1">
         <button
+          type="button"
           className="h-7 w-7 rounded-lg text-slate-300 transition-colors hover:bg-white/10"
           onClick={() => onChange(clamp(value - 1))}
         >
@@ -85,6 +118,7 @@ export function NumberStepper({
           {value}
         </span>
         <button
+          type="button"
           className="h-7 w-7 rounded-lg text-slate-300 transition-colors hover:bg-white/10"
           onClick={() => onChange(clamp(value + 1))}
         >

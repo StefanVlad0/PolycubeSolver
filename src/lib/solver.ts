@@ -130,7 +130,7 @@ export function solvePuzzle(
 
   // Canonicalize a solution by its *partition* of cells into pieces (labels are
   // relabeled by first occurrence). This makes two solutions equivalent when a
-  // container symmetry maps one grouping onto the other — which correctly counts
+  // container symmetry maps one grouping onto the other - which correctly counts
   // mirror-image arrangements as the same (e.g. Soma's 240 up to rot+reflect).
   const remap = new Int16Array(numPieces + 2);
   const canonicalOf = (assign: Int16Array): string => {

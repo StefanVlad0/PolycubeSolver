@@ -53,36 +53,83 @@ export function PieceList() {
                 value={p.name}
                 onChange={(e) => renamePiece(p.id, e.target.value)}
                 className="min-w-0 flex-1 bg-transparent text-sm font-medium text-slate-100 outline-none placeholder:text-slate-500"
-                placeholder="Name"
+                placeholder="Piece name"
               />
 
-              <span className="chip !px-2 !py-0.5 tabular-nums">
-                {p.cells.length}
+              <span
+                className="chip shrink-0 whitespace-nowrap !px-1.5 !py-0.5 text-[10px] leading-none tabular-nums"
+                title={`${p.cells.length} unit cube${p.cells.length === 1 ? "" : "s"}`}
+              >
+                {p.cells.length}&nbsp;cubes
               </span>
 
               <button
-                className={`rounded-lg px-2 py-1 text-xs font-semibold transition-colors ${
+                className={`grid h-8 w-8 place-items-center rounded-lg transition-colors ${
                   active
                     ? "bg-indigo-500/30 text-indigo-100"
                     : "text-slate-300 hover:bg-white/10"
                 }`}
                 onClick={() => setEditTarget({ kind: "piece", id: p.id })}
+                title={active ? "Editing piece" : "Edit piece"}
+                aria-label={active ? "Editing piece" : "Edit piece"}
               >
-                {active ? "Editing" : "Edit"}
+                <PencilIcon />
               </button>
 
               <button
-                className="rounded-lg px-1.5 py-1 text-slate-500 transition-colors hover:bg-rose-500/20 hover:text-rose-300"
+                className="grid h-8 w-8 place-items-center rounded-lg text-slate-500 transition-colors hover:bg-rose-500/20 hover:text-rose-300 disabled:opacity-30"
                 onClick={() => removePiece(p.id)}
                 disabled={pieces.length <= 1}
                 title="Delete piece"
+                aria-label="Delete piece"
               >
-                ✕
+                <TrashIcon />
               </button>
             </div>
           );
         })}
       </div>
     </Section>
+  );
+}
+
+function PencilIcon() {
+  return (
+    <svg
+      width="15"
+      height="15"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+    >
+      <path d="M12 20h9" />
+      <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z" />
+    </svg>
+  );
+}
+
+function TrashIcon() {
+  return (
+    <svg
+      width="15"
+      height="15"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+    >
+      <path d="M3 6h18" />
+      <path d="M8 6V4h8v2" />
+      <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
+      <path d="M10 11v6" />
+      <path d="M14 11v6" />
+    </svg>
   );
 }
