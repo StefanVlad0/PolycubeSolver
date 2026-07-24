@@ -69,7 +69,7 @@ function tuneLightness(hex: string, delta: number): string {
 
 const GRID_STROKE = "#111827";
 
-/** Simulated light from top-left — keeps hue, only shifts lightness. */
+/** Simulated light from top-left - keeps hue, only shifts lightness. */
 function faceFill(hex: string, tone: FaceTone): string {
   return tone === "top" ? tuneLightness(hex, 7) : tone === "mid" ? hex : tuneLightness(hex, -8);
 }

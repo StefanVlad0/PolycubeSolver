@@ -125,3 +125,19 @@ body {
     transform: translateY(0);
   }
 }
+
+.intro-cta-pulse {
+  animation: intro-cta-pulse 2s ease-in-out infinite;
+}
+
+@keyframes intro-cta-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 10px 25px -8px rgba(34, 211, 238, 0.45);
+  }
+  50% {
+    transform: scale(1.04);
+    box-shadow: 0 14px 32px -6px rgba(99, 102, 241, 0.55);
+  }
+}

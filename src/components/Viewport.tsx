@@ -5,6 +5,7 @@ import { SceneFrame } from "./scene/SceneFrame";
 import { EditorScene } from "./scene/EditorScene";
 import { SolutionScene } from "./scene/SolutionScene";
 import { StartupIntro } from "./scene/StartupIntro";
+import { OnboardingModal } from "./OnboardingModal";
 import { sceneExtent, DEFAULT_SPACING, MIN_SPACING, MAX_SPACING } from "../lib/grid";
 
 function useExtent(spacing: number): { extent: number; camDist: number } {
@@ -32,6 +33,7 @@ export function Viewport() {
   const [viewing, setViewing] = useState(false);
   const [explode, setExplode] = useState(0);
   const [introDone, setIntroDone] = useState(false);
+  const [showOnboarding, setShowOnboarding] = useState(false);
 
   const dismissIntro = () => {
     if (introDone) return;
@@ -39,6 +41,11 @@ export function Viewport() {
     if (pieces.length > 0) {
       setEditTarget({ kind: "piece", id: pieces[0].id });
     }
+    setShowOnboarding(true);
+  };
+
+  const closeOnboarding = () => {
+    setShowOnboarding(false);
   };
 
   const editingPiece =
@@ -61,6 +68,13 @@ export function Viewport() {
   useEffect(() => {
     if (status === "solving") setIntroDone(true);
   }, [status]);
+
+  const setSidebarLocked = useStore((s) => s.setSidebarLocked);
+  const startupComplete = introDone && !showOnboarding;
+
+  useEffect(() => {
+    setSidebarLocked(!startupComplete);
+  }, [startupComplete, setSidebarLocked]);
 
   const { extent } = useExtent(showIntro ? DEFAULT_SPACING : cellSpacing);
   const activeSpacing = showIntro ? DEFAULT_SPACING : cellSpacing;
@@ -117,14 +131,14 @@ export function Viewport() {
       {/* Intro title overlay */}
       {showIntro && (
         <div className="pointer-events-none absolute inset-x-0 bottom-8 flex justify-center px-4">
-          <div className="glass animate-fade-in max-w-sm rounded-2xl px-5 py-3 text-center">
+          <div className="glass animate-fade-in max-w-sm rounded-2xl px-5 py-4 text-center">
             <p className="text-sm font-bold tracking-tight text-slate-100">PolycubeSolver</p>
             <p className="mt-0.5 text-xs text-slate-400">
               Design pieces · solve any polycube puzzle
             </p>
-            <p className="mt-2.5 text-xs font-medium text-slate-300">
-              Click or drag to start
-            </p>
+            <div className="intro-cta-pulse mt-3 inline-flex rounded-full bg-gradient-to-r from-indigo-500 to-cyan-400 px-5 py-2.5 text-xs font-bold text-white shadow-lg shadow-cyan-500/25">
+              Click or drag anywhere to start
+            </div>
           </div>
         </div>
       )}
@@ -237,6 +251,8 @@ export function Viewport() {
           />
         </div>
       )}
+
+      {showOnboarding && !showIntro && <OnboardingModal onClose={closeOnboarding} />}
 
     </div>
   );

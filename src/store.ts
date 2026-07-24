@@ -46,6 +46,7 @@ interface AppState {
   solutions: Solution[];
   currentSolution: number;
   errorMessage: string | null;
+  sidebarLocked: boolean;
 
   // actions
   setEditTarget: (t: EditTarget) => void;
@@ -72,6 +73,7 @@ interface AppState {
   cancelSolve: () => void;
   setCurrentSolution: (i: number) => void;
   clearSolveResults: () => void;
+  setSidebarLocked: (locked: boolean) => void;
 
   totalPieceVolume: () => number;
 }
@@ -162,6 +164,7 @@ export const useStore = create<AppState>((set, get) => ({
   solutions: [],
   currentSolution: 0,
   errorMessage: null,
+  sidebarLocked: true,
 
   setEditTarget: (t) => {
     const prev = get().editTarget;
@@ -325,6 +328,8 @@ export const useStore = create<AppState>((set, get) => ({
   },
 
   clearSolveResults: () => set(clearSolveResultsState()),
+
+  setSidebarLocked: (locked) => set({ sidebarLocked: locked }),
 
   totalPieceVolume: () =>
     get().pieces.reduce((s, p) => s + p.cells.length, 0),
