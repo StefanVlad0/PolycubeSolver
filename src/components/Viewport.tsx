@@ -87,16 +87,33 @@ export function Viewport() {
         </SceneFrame>
       </Canvas>
 
+      {/* Intro — example chip top left */}
+      {showIntro && (
+        <div className="pointer-events-none absolute left-4 top-4 z-10">
+          <div className="animate-fade-in rounded-xl border border-indigo-400/20 bg-indigo-500/10 px-3 py-2 backdrop-blur">
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-indigo-300/80">
+              This example
+            </p>
+            <p className="mt-0.5 text-xs text-slate-300">
+              Soma Cube · 7 pieces · 240 solutions
+            </p>
+          </div>
+        </div>
+      )}
+
       {/* Intro title overlay */}
       {showIntro && (
-        <div className="pointer-events-none absolute inset-x-0 bottom-8 flex justify-center">
-          <div className="glass animate-fade-in rounded-2xl px-5 py-2.5 text-center">
+        <div className="pointer-events-none absolute inset-x-0 bottom-8 flex justify-center px-4">
+          <div className="glass animate-fade-in max-w-sm rounded-2xl px-5 py-3 text-center">
             <p className="text-sm font-semibold gradient-text">PolycubeSolver</p>
-            <p className="text-xs text-slate-400">
-              {introReady
-                ? "Click or drag to start"
-                : "Soma Cube · 7 pieces · 240 solutions"}
+            <p className="mt-0.5 text-xs text-slate-400">
+              Design pieces · solve any polycube puzzle
             </p>
+            {introReady && (
+              <p className="mt-2.5 text-xs font-medium text-slate-300">
+                Click or drag to start
+              </p>
+            )}
           </div>
         </div>
       )}
