@@ -48,15 +48,19 @@ export function Viewport() {
 
   const hasSolutions = solutions.length > 0;
   const showSolution = viewing && hasSolutions;
-  const showIntro = !introDone;
+  const showIntro = !introDone && status !== "solving";
 
   useEffect(() => {
     if (meta && solutions.length > 0) setViewing(true);
   }, [meta, solutions.length]);
 
   useEffect(() => {
-    setViewing(false);
-  }, [editTarget, pieces, container]);
+    if (solutions.length === 0) setViewing(false);
+  }, [solutions.length]);
+
+  useEffect(() => {
+    if (status === "solving") setIntroDone(true);
+  }, [status]);
 
   const { extent } = useExtent(showIntro ? DEFAULT_SPACING : cellSpacing);
   const activeSpacing = showIntro ? DEFAULT_SPACING : cellSpacing;
@@ -234,14 +238,6 @@ export function Viewport() {
         </div>
       )}
 
-      {hasSolutions && !viewing && (
-        <button
-          className="btn btn-primary absolute bottom-4 left-1/2 -translate-x-1/2"
-          onClick={() => setViewing(true)}
-        >
-          View {solutions.length} solution{solutions.length > 1 ? "s" : ""}
-        </button>
-      )}
     </div>
   );
 }

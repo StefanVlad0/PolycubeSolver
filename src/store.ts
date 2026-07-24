@@ -71,6 +71,7 @@ interface AppState {
   solve: () => void;
   cancelSolve: () => void;
   setCurrentSolution: (i: number) => void;
+  clearSolveResults: () => void;
 
   totalPieceVolume: () => number;
 }
@@ -118,6 +119,25 @@ function ensureWorker(get: () => AppState, set: (p: Partial<AppState>) => void) 
   return worker;
 }
 
+function clearSolveResultsState(): Pick<
+  AppState,
+  "status" | "meta" | "solutions" | "currentSolution" | "errorMessage"
+> {
+  return {
+    status: "idle",
+    meta: null,
+    solutions: [],
+    currentSolution: 0,
+    errorMessage: null,
+  };
+}
+
+function cancelWorkerIfSolving(get: () => AppState) {
+  if (get().status === "solving" && worker) {
+    worker.postMessage({ type: "cancel" });
+  }
+}
+
 const defaultSettings: SolverSettings = {
   allowReflections: false,
   dedupe: "none",
@@ -143,7 +163,16 @@ export const useStore = create<AppState>((set, get) => ({
   currentSolution: 0,
   errorMessage: null,
 
-  setEditTarget: (t) => set({ editTarget: t }),
+  setEditTarget: (t) => {
+    const prev = get().editTarget;
+    const unchanged =
+      prev.kind === t.kind &&
+      (prev.kind === "container" || (t.kind === "piece" && prev.id === t.id));
+    if (unchanged) return;
+
+    cancelWorkerIfSolving(get);
+    set({ editTarget: t, ...clearSolveResultsState() });
+  },
   setEraseMode: (v) => set({ eraseMode: v }),
   setCellSpacing: (v) =>
     set({
@@ -182,6 +211,7 @@ export const useStore = create<AppState>((set, get) => ({
     }),
 
   togglePieceCell: (id, cell) => {
+    cancelWorkerIfSolving(get);
     const { pieces, container } = get();
     if (!isInsideDims(cell, container.dims)) return;
     set({
@@ -198,33 +228,37 @@ export const useStore = create<AppState>((set, get) => ({
         }
         return { ...p, cells: normalize(cells) };
       }),
-      status: "idle",
+      ...clearSolveResultsState(),
     });
   },
 
   setContainerDims: (dims) => {
-    set({ container: boxContainer(dims[0], dims[1], dims[2]), status: "idle" });
+    cancelWorkerIfSolving(get);
+    set({ container: boxContainer(dims[0], dims[1], dims[2]), ...clearSolveResultsState() });
   },
 
   toggleContainerCell: (cell) => {
+    cancelWorkerIfSolving(get);
     const { container } = get();
     const k = keyOf(cell);
     const exists = container.cells.some((c) => keyOf(c) === k);
     const cells = exists
       ? container.cells.filter((c) => keyOf(c) !== k)
       : [...container.cells, cell];
-    set({ container: { ...container, cells }, status: "idle" });
+    set({ container: { ...container, cells }, ...clearSolveResultsState() });
   },
 
   fillContainer: () => {
+    cancelWorkerIfSolving(get);
     const { container } = get();
     const [dx, dy, dz] = container.dims;
-    set({ container: boxContainer(dx, dy, dz), status: "idle" });
+    set({ container: boxContainer(dx, dy, dz), ...clearSolveResultsState() });
   },
 
   clearContainer: () => {
+    cancelWorkerIfSolving(get);
     const { container } = get();
-    set({ container: { ...container, cells: [] }, status: "idle" });
+    set({ container: { ...container, cells: [] }, ...clearSolveResultsState() });
   },
 
   setSettings: (s) => set({ settings: { ...get().settings, ...s }, status: "idle" }),
@@ -289,6 +323,8 @@ export const useStore = create<AppState>((set, get) => ({
     const idx = ((i % solutions.length) + solutions.length) % solutions.length;
     set({ currentSolution: idx });
   },
+
+  clearSolveResults: () => set(clearSolveResultsState()),
 
   totalPieceVolume: () =>
     get().pieces.reduce((s, p) => s + p.cells.length, 0),
