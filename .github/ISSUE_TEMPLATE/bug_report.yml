@@ -1,0 +1,31 @@
+---
+name: Bug report
+about: Report something that is not working
+title: "[Bug] "
+labels: bug
+assignees: ""
+---
+
+## What happened?
+
+<!-- Describe the bug clearly -->
+
+## Steps to reproduce
+
+1.
+2.
+3.
+
+## Expected behavior
+
+<!-- What should have happened? -->
+
+## Screenshots
+
+<!-- If helpful, add screenshots -->
+
+## Environment
+
+- Browser:
+- OS:
+- App version / commit (if known):

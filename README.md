@@ -77,3 +77,7 @@ Made by **[Vlad Stefan](https://github.com/StefanVlad0)** · [Support the projec
 ## License
 
 [MIT](LICENSE)
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md). Bug reports and pull requests are welcome.
