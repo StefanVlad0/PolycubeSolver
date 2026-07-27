@@ -1,56 +1,79 @@
-# PolycubeSolver
+# PolycubeSolver - Soma Cube Solver & 3D Polycube Puzzle Solver
 
-A modern, good-looking web app for designing 3D polycube pieces and solving
-packing puzzles like the **Soma Cube** - right in your browser. Define up to
-**7 pieces**, choose a target container shape, and the solver tells you whether
-solutions exist, **how many**, and lets you browse every one in interactive 3D.
+**PolycubeSolver** is a free browser app to design polycube pieces and **solve Soma Cube-style packing puzzles** in 3D. Build up to 7 pieces, sculpt any target shape, and run an exact-cover **polycube solver** with live counts and an interactive solution viewer.
 
-![PolycubeSolver](public/favicon.svg)
+<p align="center">
+  <a href="https://stefanvlad0.github.io/PolycubeSolver/">
+    <strong>👉 Try the live Soma & polycube solver</strong>
+  </a>
+</p>
+
+<p align="center">
+  <sub><a href="https://stefanvlad0.github.io/PolycubeSolver/">stefanvlad0.github.io/PolycubeSolver</a></sub>
+  &nbsp;·&nbsp;
+  <sub><a href="https://github.com/StefanVlad0/PolycubeSolver/issues">Report an issue</a></sub>
+</p>
+
+![PolycubeSolver - Soma cube solver and 3D polycube puzzle editor](./docs/images/hero.png)
 
 ## Features
 
-- **Interactive 3D editor** - sculpt each piece and the container by clicking
-  cells in a live 3D grid (drag to orbit, scroll to zoom).
-- **Up to 7 pieces**, each with its own name and color.
-- **Fast exact-cover solver** (Dancing Links / Algorithm X) that runs in a Web
-  Worker, so the UI stays smooth. Shows live progress while searching.
-- **Solution counting** with three modes:
-  - _All placements_ - every raw solution.
-  - _Unique up to rotation_ - deduplicates whole-cube rotations.
-  - _Unique up to rotation + mirror_ - the classic count (e.g. Soma → **240**).
-- **Optional piece reflections** (mirrored placements).
-- **Solution browser** with an "explode" slider to inspect how pieces fit.
-- **Soma Cube preset** built in, plus a blank canvas to design your own puzzles.
+- **Soma Cube preset** - classic 7-piece puzzle, 240 distinct solutions (rotation + mirror).
+- **3D polycube editor** - click cells to build pieces and irregular target shapes.
+- **Polycube solver** - Dancing Links (Algorithm X) in a Web Worker; raw or symmetry-deduped counts.
+- **Solution browser** - step through layouts, explode view, orbit and zoom.
+- **Up to 7 pieces** - custom names and colors; reflections optional.
+- **No install** - runs entirely in the browser.
+
+## Screenshots
+
+### Define the target shape
+
+![Define a custom target shape for the polycube solver](./docs/images/target-shape.png)
+
+### Edit polycube pieces
+
+![Edit a polycube piece in 3D](./docs/images/edit-piece.png)
+
+### Browse Soma solutions
+
+![Browse Soma cube solutions with explode view](./docs/images/solution.png)
 
 ## Getting started
 
 ```bash
+git clone https://github.com/StefanVlad0/PolycubeSolver.git
+cd PolycubeSolver
 npm install
-npm run dev      # start the dev server (http://localhost:5173)
-npm run build    # type-check + production build to dist/
+npm run dev
+```
+
+Open [http://localhost:5173](http://localhost:5173) (or the URL Vite prints).
+
+```bash
+npm run build    # production build to dist/
 npm run preview  # preview the production build
 ```
 
-## How it works
+## How the Soma / polycube solver works
 
-The container and every piece are sets of unit cells in a 3D integer lattice.
-For each piece the solver generates all 24 rotations (or 48 with reflections),
-then every valid translation inside the container. This becomes an **exact
-cover** problem - each container cell must be covered exactly once and each
-piece used exactly once - which is solved with **Knuth's Dancing Links**.
+Each piece and the container are sets of unit cells on a 3D grid. The solver generates all orientations (24 rotations, or 48 with reflections) and valid placements, then encodes the puzzle as an **exact cover** problem solved with **Knuth's Dancing Links**.
 
-Distinct-solution counts are computed by canonicalizing each solution's cell
-**partition** under the container's own symmetry group, so mirror-image
-arrangements collapse correctly (this is why Soma reports 240).
-
-### Verifying the solver
+For **Soma Cube** counting, solutions are canonicalized under container symmetries so mirror-equivalent packings collapse to one - giving the classic **240** distinct solutions.
 
 ```bash
 npx tsx scripts/verify.ts
-# Soma 3x3x3 → raw=11520, unique-rotations=480, unique-rot+reflect=240
+# Soma 3x3x3 -> raw=11520, unique-rotations=480, unique-rot+reflect=240
 ```
 
 ## Tech stack
 
-React · TypeScript · Vite · Three.js (`@react-three/fiber` + `drei`) ·
-Zustand · Tailwind CSS · Web Workers.
+React · TypeScript · Vite · Three.js (`@react-three/fiber`, `drei`) · Zustand · Tailwind CSS · Web Workers
+
+## Author
+
+Made by **[Vlad Stefan](https://github.com/StefanVlad0)** · [Support the project](https://buymeacoffee.com/vladstefans)
+
+## License
+
+[MIT](LICENSE)
