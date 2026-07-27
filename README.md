@@ -81,3 +81,7 @@ Made by **[Vlad Stefan](https://github.com/StefanVlad0)** · [Support the projec
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md). Bug reports and pull requests are welcome.
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md).
